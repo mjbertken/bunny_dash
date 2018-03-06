@@ -25,7 +25,7 @@ $(document).ready(function() {
 	$("#range_1").ionRangeSlider({
 	  type: "double",
 	  min: 1000000,
-	  max: 2000000,
+	  max: 1500000,
 	  grid: true
 	});
 	$("#range_3").ionRangeSlider({
