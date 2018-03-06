@@ -1692,7 +1692,7 @@ a#toggle_mobile_nav {
 			}
 			&#theme-1 {
 				&::after {
-					background: #f4f4f4;
+					background: $light-menu-bg-color;
 				}
 				&::before {
 					background: $menu_bg_col_1;
@@ -1703,12 +1703,12 @@ a#toggle_mobile_nav {
 					background: $menu_bg_col_1;
 				}
 				&::before {
-					background: #f4f4f4;
+					background: $light-menu-bg-color;
 				}
 			}
 			&#theme-3 {
 				&::after {
-					background: #f4f4f4;
+					background: $light-menu-bg-color;
 				}
 				&::before {
 					background: $menu_bg_col_1;
@@ -1720,16 +1720,16 @@ a#toggle_mobile_nav {
 					background: $menu_bg_col_1;
 				}
 				&::before {
-					background: #f4f4f4;
+					background: $light-menu-bg-color;
 					z-index:2;
 				}
 			}
 			&#theme-5 {
 				&::after {
-					background: #f4f4f4;
+					background: $light-menu-bg-color;
 				}
 				&::before {
-					background: #f4f4f4;
+					background: $light-menu-bg-color;
 				}
 			}
 			&#theme-6 {
@@ -1881,7 +1881,7 @@ a#toggle_mobile_nav {
 	}
 	&.theme-1-active {
 		.navbar.navbar-inverse {
-			background: #f4f4f4;
+			background: $light-menu-bg-color;
 		}
 		.fixed-sidebar-left{
 			z-index:1030;
@@ -1907,7 +1907,7 @@ a#toggle_mobile_nav {
 			}
 		}
 		.fixed-sidebar-left .side-nav {
-			background:#f4f4f4;
+			background:$light-menu-bg-color;
 		}
 	}
 	&.theme-3-active {
@@ -1918,7 +1918,7 @@ a#toggle_mobile_nav {
 			}
 		}
 		.navbar.navbar-inverse.navbar-fixed-top {
-			background: #f4f4f4;
+			background: $light-menu-bg-color;
 			.nav-header {
 				background: $menu_bg_col_1;
 				.logo-wrap .brand-text {
@@ -1934,7 +1934,7 @@ a#toggle_mobile_nav {
 				background: $menu_bg_col_1;
 			}
 			.nav-header {
-				background: #f4f4f4;
+				background: $light-menu-bg-color;
 				border-right:1px solid $menu_bg_col_1;
 				.logo-wrap .brand-text {
 					color:$black;
@@ -1949,17 +1949,17 @@ a#toggle_mobile_nav {
 		.fixed-sidebar-left{
 			z-index:1030;
 			.side-nav {
-				background:#f4f4f4;
+				background:$light-menu-bg-color;
 			}
 		}
 	}
 	&.theme-5-active {
 		.navbar.navbar-inverse {
-			background: #f4f4f4;
+			background: $light-menu-bg-color;
 		}
 		.fixed-sidebar-left{
 			.side-nav {
-				background: #f4f4f4;
+				background: $light-menu-bg-color;
 			}
 		}
 	}
@@ -2181,7 +2181,7 @@ a#toggle_mobile_nav {
 					input {
 						border-radius: 50px;
 						height:36px;
-						background:#f4f4f4;
+						background:$light-menu-bg-color;
 						padding-right: 30px;
 					}
 					.input-group-btn {
@@ -2584,7 +2584,7 @@ a#toggle_mobile_nav {
 			}
 			.pull-right {
 				button {
-					background:#f4f4f4;
+					background:$light-menu-bg-color;
 				}
 			}
 		}
@@ -2593,7 +2593,7 @@ a#toggle_mobile_nav {
 		}
 		&.panel-default {
 			> .panel-heading {
-				background:#f4f4f4;
+				background:$light-menu-bg-color;
 			}
 			&.border-panel,&.panel-tabs {
 				> .panel-heading {
@@ -7800,7 +7800,7 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
 			top:0;
 		}
 		.mobile-only-brand {
-			background:#f4f4f4;
+			background:$light-menu-bg-color;
 			position:relative;
 			z-index:2;
 		}
