@@ -1,1 +1,33 @@
-
+<script id="handlebars-social-widget" type="text/x-handlebars-template">
+{{#if isnew}}
+					<div id="handlebars-social-widget_{{container_id}}" class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+{{/if}}
+						<div class="panel panel-default card-view" style="padding:0;">
+							<div class="panel-wrapper collapse in">
+                                <div class="panel-body sm-data-box-1" style="padding-top:0; padding-bottom:8px">
+									<div class="cus-sat-stat text-center bg-{{platform}}" style="padding-top:5px;">
+										<span class="fa fa-{{platform}} fa-1x"></span>
+									</div>
+									<ul class="flex-stat mt-5">
+										<li>
+											<span class="block">{{label_1}}<i class="{{label_1_i_class}}"></i></span>
+											<span class="block txt-dark weight-500 font-15">{{value_1}}</span>
+										</li>
+										<li>
+											<span class="block">{{label_2}}<i class="{{label_2_i_class}}"></i></span>
+											<span class="block txt-dark weight-500 font-15">{{value_2}}</span>
+										</li>
+										<li>
+											<span class="block">Rating</span>
+											<span class="block rating-stars" stars='5'>
+                                              <span class="block txt-dark weight-500 font-15">{{rating}}</span>
+											</span>
+										</li>
+									</ul>
+								</div>
+                            </div>
+                        </div>
+{{#if isnew}}
+					</div>   
+{{/if}}
+</script>
