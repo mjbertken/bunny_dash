@@ -68,7 +68,7 @@ $('input#date-range-input').daterangepicker(
     },
     ranges,
     "alwaysShowCalendars": true,
-    startDate: moment(MINIMUM_DATE).format('MM/DD/YYYY'),//'01/01/2013',
+    startDate: moment().subtract((30-1), 'days').format('MM/DD/YYYY'),//moment(MINIMUM_DATE).format('MM/DD/YYYY'),//'01/01/2013',
     endDate: moment().format('MM/DD/YYYY'),//'12/31/2013',
     opens:'left'
 }, 
