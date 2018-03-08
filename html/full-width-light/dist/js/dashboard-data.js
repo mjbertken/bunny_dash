@@ -324,6 +324,20 @@ var echartsConfig = function() {
 
 /*****Sparkline function start*****/
 var sparklineLogin = function() { 
+	if( $('#sparkline_0').length > 0 ){
+		$("#sparkline_0").sparkline([2,4,4,6,8,5,6,4,8,6,6,2 ], {
+			type: 'bar',
+			width: '100%',
+			height: '35',
+			lineColor: '#6d300e',
+			fillColor: '#6d300e',
+			minSpotColor: '#6d300e',
+			maxSpotColor: '#6d300e',
+			spotColor: '#6d300e',
+			highlightLineColor: '#6d300e',
+			highlightSpotColor: '#6d300e'
+		});
+	}
 	if( $('#sparkline_1').length > 0 ){
 		$("#sparkline_1").sparkline([2,4,4,6,8,5,6,4,8,6,6,2 ], {
 			type: 'line',
