@@ -8,7 +8,6 @@ TAFFY.extend("avg",function (c) {
     // loop over every record in the results and sum up the column.
     TAFFY.each(this.context().results,function (r) {
 		total = total + r[c];
-        console.log(r[c]);
     })
     
     // divide the total by the number of records and return
