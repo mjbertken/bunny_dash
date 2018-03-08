@@ -77,4 +77,3 @@ $('#to-date').html(end.format('MM/DD/YYYY'));
     console.log("A new date range was chosen: [ " +label+" ] " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 });
 }
-dateRangeInit();
