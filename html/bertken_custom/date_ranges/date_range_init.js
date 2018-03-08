@@ -1,4 +1,6 @@
+
 function dateRangeInit(){
+load_timer('dateRangeInit() start');  
 //var today = new Date();
 var CQ = moment().quarter();//Math.floor(((new Date()).getMonth() + 3) / 3);
 var ranges = {};
