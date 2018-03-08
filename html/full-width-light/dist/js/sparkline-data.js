@@ -4,6 +4,20 @@ $(document).ready(function() {
    "use strict";
    
    var sparklineLogin = function() { 
+		if( $('#sparkline_0').length > 0 ){
+			$("#sparkline_0").sparkline([2,4,4,6,8,5,6,4,8,6,6,2 ], {
+				type: 'line',
+				width: '100%',
+				height: '50',
+				lineColor: '#4aa23c',
+				fillColor: 'rgba(74, 162, 60,1)',
+				minSpotColor: '#4aa23c',
+				maxSpotColor: '#4aa23c',
+				spotColor: '#4aa23c',
+				highlightLineColor: 'rgba(0, 0, 0, 0.6)',
+				highlightSpotColor: '#4aa23c'
+			});
+		}	
 		if( $('#sparkline_1').length > 0 ){
 			$("#sparkline_1").sparkline([2,4,4,6,8,5,6,4,8,6,6,2 ], {
 				type: 'line',
@@ -17,7 +31,7 @@ $(document).ready(function() {
 				highlightLineColor: 'rgba(0, 0, 0, 0.6)',
 				highlightSpotColor: '#4aa23c'
 			});
-		}	
+		}
         if( $('#sparkline_2').length > 0 ){
 			$("#sparkline_2").sparkline([0,2,8,6,8,5,6,4,8,6,6,2 ], {
 				type: 'bar',
