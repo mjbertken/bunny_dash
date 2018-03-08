@@ -6,7 +6,7 @@ $(document).ready(function() {
    var sparklineLogin = function() { 
 		if( $('#sparkline_0').length > 0 ){
 			$("#sparkline_0").sparkline([2,4,4,6,8,5,6,4,8,6,6,2 ], {
-				type: 'line',
+				type: 'bar',
 				width: '100%',
 				height: '50',
 				lineColor: '#4aa23c',
