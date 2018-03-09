@@ -3053,7 +3053,7 @@ a#toggle_mobile_nav {
     color: inherit;
     border-radius: 0;
     margin: -15px -15px 0;
-    padding: 20px 15px; }
+    padding: 10px 12px;/*padding: 20px 15px;*/ }
     .card-view.panel > .panel-heading.small-panel-heading {
       padding: 11px 15px; }
     .card-view.panel > .panel-heading .head-overlay {
