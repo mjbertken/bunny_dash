@@ -1,0 +1,55 @@
+<script id="handlebars-chart-container" type="text/x-handlebars-template">
+    <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
+      <div class="panel panel-default card-view panel-refresh" show-table="false">
+        <div class="refresh-container">
+          <div class="la-anim-1"></div>
+        </div>
+        <div class="panel-heading">
+          <div class="pull-left">
+            <h6 class="panel-title txt-dark">Installs by Technician</h6>
+          </div>
+          <div class="pull-right">
+            <a class="pull-left inline-block table-toggle mr-15" href="#"><i class="zmdi zmdi-view-comfy"></i></a> <a class="pull-left inline-block chart-resize mr-15" href="#"><i class="zmdi zmdi-arrows"></i></a> <a class="pull-left inline-block refresh mr-15" href="#"><!--onclick="pie_chart('#installs_x_tech',T32.TECHS.UNIQUE.CURRENT.DATA_ONLY);">-->
+             <i class="zmdi zmdi-replay"></i></a> <a class="pull-left inline-block full-screen mr-15" href="#"><i class="zmdi zmdi-fullscreen"></i></a>
+            <div class="pull-left inline-block dropdown">
+              <a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"><i class="zmdi zmdi-more-vert"></i></a>
+              <ul class="dropdown-menu bullet dropdown-menu-right" role="menu">
+                <li role="presentation">
+                  <a href="javascript:void(0)" role="menuitem"><i aria-hidden="true" class="icon wb-reply"></i>option 1</a>
+                </li>
+                <li role="presentation">
+                  <a href="javascript:void(0)" role="menuitem"><i aria-hidden="true" class="icon wb-share"></i>option 2</a>
+                </li>
+                <li role="presentation">
+                  <a href="javascript:void(0)" role="menuitem"><i aria-hidden="true" class="icon wb-trash"></i>option 3</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="panel-wrapper collapse in">
+          <div class="panel-body" style="padding:5px;">
+            <div class="chart" id="installs_x_tech"></div>
+          </div><!-- Table Test-->
+          <div class="panel-body panel-body-table row pa-0">
+            <div class="table-wrap">
+              <div class="table-responsive">
+                <table class="installs_x_tech table table-hover chart-table mb-0">
+                  <thead>
+                    <tr>
+                      <th>Technician</th>
+                      <th>Current</th>
+                      <th>Compare</th>
+                      <th colspan="2">Change</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End Table Test-->
+        </div>
+      </div>
+    </div><!-- End Col -->
+</script>
