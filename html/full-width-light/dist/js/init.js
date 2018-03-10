@@ -324,6 +324,17 @@ var Bunny = function(){
 		return false;
 	});
 
+	$(document).on('click', '.table-toggle', function() {
+		var panel = $(this).closest('.panel');
+		var cur_status = $(panel).attr('show-table');
+		if(cur_status == 'true'){
+			$(panel).attr('show-table','false');
+		}else{
+			$(panel).attr('show-table','true');
+		}
+		$(this).parent().find('.chart-resize').click();
+	});
+	
 	/*Resize Init Js*/
 	$(document).on("click",".chart-resize",function (e) {
 		var id = $(this).closest('div.card-view').find('.chart').attr('id');
