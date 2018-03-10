@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script>
+      var LT = new Date().getTime();
+      function load_timer(text){
+        var et = new Date().getTime();
+        console.log(((et-LT)/1000).toFixed(4) + ' seconds ' + text);
+      }
+    </script>
 	<title>Blackhat Security Dashboard</title>
 	<meta name="description" content="Bunny is a Dashboard & Admin Site Responsive Template by hencework." />
 	<meta name="keywords" content="admin, admin dashboard, admin template, cms, crm, Bunny Admin, Bunnyadmin, premium admin templates, responsive admin, sass, panel, software, ui, visualization, web app, application" />
@@ -43,20 +50,8 @@
 					</div>
 				</div>	
 				<a id="toggle_nav_btn" class="toggle-left-nav-btn inline-block ml-20 pull-left" href="javascript:void(0);"><i class="zmdi zmdi-menu"></i></a>
-				<!--
-                <a id="toggle_mobile_search" data-toggle="collapse" data-target="#search_form" class="mobile-only-view" href="javascript:void(0);"><i class="zmdi zmdi-search"></i></a>
-				-->
+                <a onclick="test();" class="toggle-left-nav-btn inline-block ml-20 pull-left" href="javascript:void(0);"><i class="zmdi zmdi-dot-circle-alt"></i></a>
                 <a id="toggle_mobile_nav" class="mobile-only-view" href="javascript:void(0);"><i class="zmdi zmdi-more"></i></a>
-				<!--
-                <form id="search_form" role="search" class="top-nav-search collapse pull-left">
-					<div class="input-group">
-						<input type="text" name="example-input1-group2" class="form-control" placeholder="Search">
-						<span class="input-group-btn">
-						<button type="button" class="btn  btn-default"  data-target="#search_form" data-toggle="collapse" aria-label="Close" aria-expanded="true"><i class="zmdi zmdi-search"></i></button>
-						</span>
-					</div>
-				</form>
-                -->
 			</div>
 			<div id="mobile_only_nav" class="mobile-only-nav pull-right">
 				<ul class="nav navbar-right top-nav pull-right">
@@ -356,6 +351,9 @@
 		<!-- /Top Menu Items -->
 		
             <style>
+            .pct:after{
+              content:'%';
+            }
             div#date-container{
               display:inline-block;
               width: 250px;
@@ -1232,101 +1230,243 @@ div#date-range-input-group:after {
 		<div class="page-wrapper">
             <div class="container-fluid pt-25">
 				<!-- Row -->
-				<div class="row">
-					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-						<div class="panel panel-default card-view pa-0">
-							<div class="panel-wrapper collapse in">
-								<div class="panel-body pa-0">
-									<div class="sm-data-box">
-										<div class="container-fluid">
-											<div class="row">
-												<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-													<span class="txt-dark block counter"><span class="counter-anim">914,001</span></span>
-													<span class="weight-500 uppercase-font block font-13">visits</span>
-												</div>
-												<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-													<i class="icon-user-following data-right-rep-icon txt-light-grey"></i>
-												</div>
-											</div>	
-										</div>
+
+
+<script>
+
+function generate_widgets(){
+  load_timer('generate_widgets() start');
+  for(var w=0;w<WIDGET_DATA.length;w++){
+    build_widget_panel(WIDGET_DATA[w]);
+  }
+  build_sparklines()
+	var counterAnim = $('.counter-anim');
+	if( counterAnim.length > 0 ){
+		counterAnim.counterUp({ delay: 10,
+        time: 500});
+	}
+}
+
+
+function build_widget_panel(context){
+  var template_id = 'handlebars-widget-panel';
+  // Grab the template script
+  var theTemplateScript = $("#"+template_id).html();
+
+  // Compile the template
+  var theTemplate = Handlebars.compile(theTemplateScript);
+  
+  // Add the compiled html to the page
+  
+  var target_parent = '#sm-data-box-row';
+  var exists = $(target_parent).find('#'+template_id+'_'+context.container_id).length;
+  if(exists>0){context['isnew']=false}else{context['isnew'] = true};
+  var theCompiledHtml = theTemplate(context);
+  
+  if(exists>0){$(target_parent).find('#'+template_id+'_'+context.container_id).html(theCompiledHtml)}
+  if(exists==0){$(target_parent).append(theCompiledHtml)}
+$('#'+template_id+'_'+context.container_id).slideDown();
+
+}
+</script>
+<style>
+*[prefix]:before{
+  content:attr(prefix);
+}
+*[suffix]:after{
+  content:attr(suffix);
+}
+.sm-data-box-1 .cus-sat-stat {
+    font-size: 30px;
+}
+.sm-data-box-1[change-direction="up"] span.trend-icon i:not(.zmdi-trending-up) {
+    display:none;
+}
+.sm-data-box-1[change-direction="down"] span.trend-icon i:not(.zmdi-trending-down) {
+    display:none;
+}
+.sm-data-box-1 span.trend-icon i.zmdi-minus {
+    opacity: 0.3;
+}
+.sm-data-box-1[change-direction="na"] span.trend-icon i:not(.zmdi-minus) {
+    display:none;
+}
+.sm-data-box-1[change-direction="up"][up-good=true] span.trend-icon i,
+.sm-data-box-1[change-direction="down"][up-good=false] span.trend-icon i,
+.sm-data-box-1[change-direction="up"][up-good=true] .cus-sat-stat,
+.sm-data-box-1[change-direction="down"][up-good=false] .cus-sat-stat{
+    color: #4aa23c;
+}
+.sm-data-box-1[change-direction="up"][up-good=true] .progress-bar,
+.sm-data-box-1[change-direction="down"][up-good=false] .progress-bar{
+    background: #4aa23c;
+}
+
+
+.sm-data-box-1[change-direction="down"][up-good=true] span.trend-icon i,
+.sm-data-box-1[change-direction="up"][up-good=false] span.trend-icon i,
+.sm-data-box-1[change-direction="down"][up-good=true] .cus-sat-stat,
+.sm-data-box-1[change-direction="up"][up-good=false] .cus-sat-stat{
+    color: #f33923;
+}
+
+.sm-data-box-1[change-direction="down"][up-good=true] .progress-bar,
+.sm-data-box-1[change-direction="up"][up-good=false] .progress-bar{
+    background: #f33923;
+}
+
+</style>
+<style>
+table.table.chart-table.chart-table td,
+table.table.chart-table.chart-table th{
+  padding: 0px;
+  padding-right:4px;
+  font-size: 12px;
+  line-height: 2;
+  vertical-align:middle;
+  text-align: right;
+}
+table.table.chart-table.chart-table td span{
+  padding: 0px;
+  font-size: 12px;
+  line-height: 2;
+  vertical-align:middle;
+}
+table.table.chart-table.chart-table td:first-child,
+table.table.chart-table.chart-table th:first-child{
+  padding-left: 6px;
+  text-align: left;
+}
+
+table.table.chart-table.chart-table td:last-child{
+  width: 55px;
+}
+table.table.chart-table.chart-table td i{
+  width: 25px;
+  font-size:1.5em;
+  vertical-align:middle;
+}
+table.table.chart-table.chart-table td:last-child,
+table.table.chart-table.chart-table th:last-child{
+  padding-right: 6px;
+}
+table.table.chart-table.chart-table tr{
+vertical-align:middle;
+}
+div.color-block{
+    background-color: #FC9D9A;
+    border: 1px;
+    border-radius: 2px;
+    display: inline-block;
+    height: 14px;
+    width: 14px;
+    vertical-align:middle;
+    margin-left: 0px;
+    margin-right: 2px;
+}
+.chart{
+  height: 250px;
+}
+.fullscreen .chart{
+  height: 50%;
+}
+</style>
+
+
+
+<div id="sm-data-box-row" class="row">
+</div>
+<div id="social-row" class="row">    
+</div>           
+<style>
+
+div.panel[show-table=false] div.panel-body-table{
+    display: none;
+}
+div.panel[show-table=true] div.panel-body-table{
+    display: block;
+    -webkit-animation: slide-down .3s ease-out;
+    -moz-animation: slide-down .3s ease-out;
+}
+@-webkit-keyframes slide-down {
+      0% { opacity: 0; -webkit-transform: translateX(-100%); }   
+    100% { opacity: 1; -webkit-transform: translateX(0); }
+}
+@-moz-keyframes slide-down {
+      0% { opacity: 0; -moz-transform: translateX(-100%); }   
+    100% { opacity: 1; -moz-transform: translateX(0); }
+}
+</style>
+<!-- Row -->
+<div class="row">
+					<div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
+						<div class="panel panel-default card-view panel-refresh" show-table="false">
+							<div class="refresh-container">
+								<div class="la-anim-1"></div>
+							</div>
+							<div class="panel-heading">
+								<div class="pull-left">
+									<h6 class="panel-title txt-dark">Installs by Technician</h6>
+								</div>
+								<div class="pull-right">
+									<a href="#" class="pull-left inline-block table-toggle mr-15">
+                                        <i class="zmdi zmdi-view-comfy"></i>
+									</a>
+									<a href="#" class="pull-left inline-block refresh mr-15" onclick="pie_chart('#installs_x_tech',T32.TECHS.UNIQUE.CURRENT.DATA_ONLY);">
+										<i class="zmdi zmdi-replay"></i>
+									</a>
+                                    <a href="#" class="pull-left inline-block full-screen mr-15">
+										<i class="zmdi zmdi-fullscreen"></i>
+									</a>
+									<div class="pull-left inline-block dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert"></i></a>
+										<ul class="dropdown-menu bullet dropdown-menu-right"  role="menu">
+											<li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>option 1</a></li>
+											<li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>option 2</a></li>
+											<li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i>option 3</a></li>
+										</ul>
 									</div>
 								</div>
+								<div class="clearfix"></div>
 							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-						<div class="panel panel-default card-view pa-0">
 							<div class="panel-wrapper collapse in">
-								<div class="panel-body pa-0">
-									<div class="sm-data-box">
-										<div class="container-fluid">
-											<div class="row">
-												<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-													<span class="txt-dark block counter"><span class="counter-anim">46.41</span>%</span>
-													<span class="weight-500 uppercase-font block">bounce rate</span>
-												</div>
-												<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-													<i class="icon-control-rewind data-right-rep-icon txt-light-grey"></i>
-												</div>
-											</div>	
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-						<div class="panel panel-default card-view pa-0">
-							<div class="panel-wrapper collapse in">
-								<div class="panel-body pa-0">
-									<div class="sm-data-box">
-										<div class="container-fluid">
-											<div class="row">
-												<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-													<span class="txt-dark block counter"><span class="counter-anim">4,054,876</span></span>
-													<span class="weight-500 uppercase-font block">pageviews</span>
-												</div>
-												<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-													<i class="icon-layers data-right-rep-icon txt-light-grey"></i>
-												</div>
-											</div>	
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-						<div class="panel panel-default card-view pa-0">
-							<div class="panel-wrapper collapse in">
-								<div class="panel-body pa-0">
-									<div class="sm-data-box">
-										<div class="container-fluid">
-											<div class="row">
-												<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-													<span class="txt-dark block counter"><span class="counter-anim">46.43</span>%</span>
-													<span class="weight-500 uppercase-font block">growth rate</span>
-												</div>
-												<div class="col-xs-6 text-center  pl-0 pr-0 pt-25  data-wrap-right">
-													<div id="sparkline_4" style="width: 100px; overflow: hidden; margin: 0px auto;"></div>
-												</div>
-											</div>	
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- /Row -->
-				
+								<div class="panel-body" style="padding:5px;">
+									<div id="installs_x_tech" class="chart" ></div>
+                                </div> 
+
+                                    <!-- Table Test-->
+                                    <div class="panel-body panel-body-table row pa-0">
+                                      <div class="table-wrap">
+                                          <div class="table-responsive">
+                                              <table class="installs_x_tech table table-hover chart-table mb-0">
+                                                  <thead>
+                                                      <tr>
+                                                          <th>Technician</th>
+                                                          <th>Current</th>
+                                                          <th>Compare</th>
+                                                          <th colspan="2">Change</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <!-- End Table Test-->
+								
+							</div>	
+						</div>	
+					</div>	<!-- End Col -->
+</div><!-- End Row -->
+
 				<!-- Row -->
 				<div class="row">
 					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 						<div class="panel panel-default card-view">
 							<div class="panel-wrapper collapse in">
-                                <div class="panel-body sm-data-box-1">
-									<span class="uppercase-font weight-500 font-14 block text-center txt-dark">customer satisfaction</span>	
+                                <div class="panel-body sm-data-box-1" style="position:relative;">
+									<span class="uppercase-font weight-500 font-14 block text-center txt-dark">customer satisfaction</span>
 									<div class="cus-sat-stat weight-500 txt-warning text-center mt-5">
 										<span class="counter-anim">93.13</span><span>%</span>
 									</div>
@@ -1352,9 +1492,71 @@ div#date-range-input-group:after {
 											</span>
 										</li>
 									</ul>
+                                    <div id="sparktest" sparkdata="[1,2,1,2,0,0,5,16,7,8,3,4,5,13,7,8]" class="sparkline pull-right" style="width: 100%; text-align:center; overflow: hidden; margin: 0px auto; height:15px; position:absolute; bottom:0;"></div>
 								</div>
                             </div>
                         </div>
+                        
+<script>
+function shadeBlendConvert(p, from, to) {
+    /* p : val from -1 to 1 (-1 black, 1 white)
+       from: original color
+       to: can be blank
+    */
+	if(typeof(p)!="number"||p<-1||p>1||typeof(from)!="string"||(from[0]!='r'&&from[0]!='#')||(typeof(to)!="string"&&typeof(to)!="undefined"))return null;
+	if(!this.sbcRip)this.sbcRip=function(d){
+		var l=d.length,RGB=new Object();
+		if(l>9){
+			d=d.split(",");
+			if(d.length<3||d.length>4)return null;
+			RGB[0]=i(d[0].slice(4)),RGB[1]=i(d[1]),RGB[2]=i(d[2]),RGB[3]=d[3]?parseFloat(d[3]):-1;
+		}else{
+			if(l==8||l==6||l<4)return null;
+			if(l<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(l>4?d[4]+""+d[4]:"");
+			d=i(d.slice(1),16),RGB[0]=d>>16&255,RGB[1]=d>>8&255,RGB[2]=d&255,RGB[3]=l==9||l==5?r(((d>>24&255)/255)*10000)/10000:-1;
+		}
+		return RGB;
+	}
+	var i=parseInt,r=Math.round,h=from.length>9,h=typeof(to)=="string"?to.length>9?true:to=="c"?!h:false:h,b=p<0,p=b?p*-1:p,to=to&&to!="c"?to:b?"#000000":"#FFFFFF",f=sbcRip(from),t=sbcRip(to);
+	if(!f||!t)return null;
+	if(h)return "rgb("+r((t[0]-f[0])*p+f[0])+","+r((t[1]-f[1])*p+f[1])+","+r((t[2]-f[2])*p+f[2])+(f[3]<0&&t[3]<0?")":","+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*10000)/10000:t[3]<0?f[3]:t[3])+")");
+	else return "#"+(0x100000000+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*255):t[3]>-1?r(t[3]*255):f[3]>-1?r(f[3]*255):255)*0x1000000+r((t[0]-f[0])*p+f[0])*0x10000+r((t[1]-f[1])*p+f[1])*0x100+r((t[2]-f[2])*p+f[2])).toString(16).slice(f[3]>-1||t[3]>-1?1:3);
+}
+
+function build_sparklines(){
+    $('.sparkline').each( function( i ){
+    var width = $(this).width();
+//    console.log('width: '+width);
+    var sparkdata = $(this).attr('sparkdata');
+//    console.log('sparkdata: '+sparkdata);
+    if(sparkdata){
+      sparkdata = JSON.parse( $(this).attr('sparkdata') );
+    }
+    var barWidth = ( (width) / (sparkdata.length+1) - 1);
+    var lineColor = $(this).parent().find('.cus-sat-stat').css('color');
+//    var lineColor = '#4aa23c';
+    var areaColor = shadeBlendConvert(0.6,lineColor);
+//    console.log(areaColor);
+    $(this).sparkline(sparkdata, {
+			type: 'line',
+            barSpacing: 1,
+			width: '100%',
+			height: '15',
+			lineColor: lineColor,
+    fillColor: areaColor,//'#ffffff',
+    spotColor: lineColor,
+    minSpotColor: undefined,
+    maxSpotColor: undefined,
+    highlightSpotColor: lineColor,//'#ff0000',
+    highlightLineColor: lineColor,//#ff0000',
+    spotRadius: 0.5,
+    normalRangeColor: lineColor,//'#ff0000',
+		});
+});
+
+}
+</script>
+                        
 						<div class="panel panel-default card-view">
 							<div class="panel-heading">
 								<div class="pull-left">
@@ -1667,7 +1869,6 @@ div#date-range-input-group:after {
 				</div>	
 				<!-- Row -->
 			</div>
-			
 			<!-- Footer -->
 			<footer class="footer container-fluid pl-30 pr-30">
 				<div class="row">
@@ -1685,7 +1886,10 @@ div#date-range-input-group:after {
     <!-- /#wrapper -->
 	
 	<!-- JavaScript -->
-	
+    
+    <!-- Utilities -->
+    <script src="https://rawgit.com/mjbertken/bunny_dash/master/html/bertken_custom/utilities.js"></script>
+    
     <!-- jQuery -->
     <script src="https://rawgit.com/mjbertken/bunny_dash/master/html/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -1728,8 +1932,33 @@ div#date-range-input-group:after {
 	<script src="https://rawgit.com/mjbertken/bunny_dash/master/html/full-width-light/dist/js/init.js"></script>
 	<script src="https://rawgit.com/mjbertken/bunny_dash/master/html/full-width-light/dist/js/dashboard-data.js"></script>
     
+    <!-- Date Range Init -->
+    <script src="https://rawgit.com/mjbertken/bunny_dash/master/html/bertken_custom/date_ranges/date_range_init.js" onload="load_timer('Loaded: '+this.src);"></script>
+    
     <!-- Bootstrap Daterangepicker JavaScript -->
     <script src="https://rawgit.com/mjbertken/bunny_dash/master/html/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    
+    <!-- Backendless -->
+    <script src="https://api.backendless.com/sdk/js/latest/backendless.min.js" onload="backendless_min_js = true; load_timer('Loaded: '+this.src);"></script>
+    
+    <!-- TaffyDB -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/taffydb/2.7.3/taffy-min.js" onload="load_timer('Loaded: '+this.src);"></script>
+    <script src="https://rawgit.com/mjbertken/bunny_dash/master/html/bertken_custom/taffy_extensions.js" onload="load_timer('Loaded: '+this.src);"></script>
+    
+    <!-- HandlebarsJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js" onload="load_timer('Loaded: '+this.src);"></script>
+    <div id="handlebars-templates"></div>
+    
+    <!-- Widgets Panels -->
+    <script>$.get('https://rawgit.com/mjbertken/bunny_dash/master/html/bertken_custom/widget_panels/widget_panels.html', function (data) {$('#handlebars-templates').append(data);});</script>
+        
+    <!-- Social Widgets -->
+    <script src="https://rawgit.com/mjbertken/bunny_dash/master/html/bertken_custom/social_widgets/social_widgets.js"></script>
+    <link href="https://rawgit.com/mjbertken/bunny_dash/master/html/bertken_custom/social_widgets/social_widgets.css" rel="stylesheet" type="text/css">
+    <script>$.get('https://rawgit.com/mjbertken/bunny_dash/master/html/bertken_custom/social_widgets/handlebars_template.html', function (data) {$('#handlebars-templates').append(data);});</script>
+
+    
+    
 </body>
 
 <style>
@@ -1761,86 +1990,593 @@ div.range_inputs > button.applyBtn{
 </style>
 
 <script>
-
-function dateRangeInit(){
-//var today = new Date();
-var CQ = moment().quarter();//Math.floor(((new Date()).getMonth() + 3) / 3);
-var ranges = {};
-ranges["Today"]=
-              [moment().format('MM/DD/YYYY')
-              ,moment().format('MM/DD/YYYY')
-              ];
-ranges["Yesterday"]=
-              [moment().subtract(1, 'days').format('MM/DD/YYYY')
-              ,moment().subtract(1, 'days').format('MM/DD/YYYY')
-              ];
-var per =""; var dc = 3;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-ranges["This Week"]=
-              [moment().startOf('week').format('MM/DD/YYYY')
-              ,moment().format('MM/DD/YYYY')
-              ];
-ranges["Last Week"]=
-              [moment().startOf('week').subtract(1, 'days').startOf('week').format('MM/DD/YYYY')
-              ,moment().startOf('week').subtract(1, 'days').format('MM/DD/YYYY')
-              ];
-var per =""; var dc = 7;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per =""; var dc = 10;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per =""; var dc = 14;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per =""; var dc = 21;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per = "Month"; var dc = 30;              
-  ranges["This "+per]=[moment().startOf(per).format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-  ranges["Last "+per]=[moment().startOf(per).subtract(1, 'days').startOf(per).format('MM/DD/YYYY'),moment().startOf(per).subtract(1, 'days').format('MM/DD/YYYY')];
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-
-var per =""; var dc = 45;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per =""; var dc = 60;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per =""; var dc = 75;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per = "Quarter"; var dc = 90;              
-  ranges["This "+per]=[moment().startOf(per).format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-  ranges["Last "+per]=[moment().startOf(per).subtract(1, 'days').startOf(per).format('MM/DD/YYYY'),moment().startOf(per).subtract(1, 'days').format('MM/DD/YYYY')];
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per =""; var dc = 120;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per =""; var dc = 180;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per =""; var dc = 270;
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-var per = "Year"; var dc = 365;              
-  ranges["This "+per]=[moment().startOf(per).format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-  ranges["Last "+per]=[moment().startOf(per).subtract(1, 'days').startOf(per).format('MM/DD/YYYY'),moment().startOf(per).subtract(1, 'days').format('MM/DD/YYYY')];
-  ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-
-ranges["All"]=[
-                moment().subtract(900, 'days').format('MM/DD/YYYY')
-                ,moment().format('MM/DD/YYYY')
-              ];
-$('input#date-range-input').daterangepicker(
-{
-    locale: {
-      format: 'MM/DD/YYYY',
-      customRangeLabel: 'Custom'
-    },
-    ranges,
-    "alwaysShowCalendars": true,
-    startDate: '01/01/2013',
-    endDate: '12/31/2013',
-    opens:'left'
-}, 
-function(start, end, label) {
-$('#from-date').html(start.format('MM/DD/YYYY'));
-$('#to-date').html(end.format('MM/DD/YYYY'));
-    $('#date-range-input-group').attr('date-type',label);
-    console.log("A new date range was chosen: [ " +label+" ] " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-});
+var LOCAL_DB_LIFESPAN_HOURS = 1;
+var LOCAL_DB_EXPIRED = true;
+var MINIMUM_DATE = 0;
+var START_DATE;
+var THRU_DATE;
+if (localStorage.T32_LAST_UPDATE) {
+    load_timer('Last updated: '+localStorage.T32_LAST_UPDATE);
+    time(localStorage.T32_LAST_UPDATE);
+//    localStorage.T32_LAST_UPDATE = new Date().getTime();
+} else {
+//    localStorage.T32_LAST_UPDATE = new Date().getTime();
+    LOCAL_DB_EXPIRED = true;
 }
-dateRangeInit()
+load_timer('Local Storage - T32_LAST_UPDATE : '+localStorage.T32_LAST_UPDATE);
+
+function time(time){
+  var current = new Date().getTime();
+  var dif = current-time;
+  var seconds = (dif/1000);
+  var minutes = (seconds/60);
+  var hours = (minutes/60);
+  if(hours<LOCAL_DB_LIFESPAN_HOURS){
+    LOCAL_DB_EXPIRED=false;
+    load_timer('Local Storage Valid. Last Updated '+hours.toFixed(2)+' hours ago.');
+  }else{
+    load_timer('Local Storage Expired. Last Updated '+hours.toFixed(2)+' hours ago.');
+  }
+}
+
+
+
+var DB_T32 = TAFFY(); var DB_T32_DCUR; var DB_T32_DCOMP;
+var DB_GA = TAFFY(); var DB_GA_DCUR; var DB_GA_DCOMP;
+var WIDGET_DATA = [];
+var GA = {
+  SESSIONS : {PCT:false,UP_GOOD:true},
+  PAGE_VIEWS : {PCT:false,UP_GOOD:true},
+  BOUNCE_RATE : {PCT:true,UP_GOOD:false},
+  IN_MARKET_TRAFFIC : {PCT:true,UP_GOOD:true}
+}
+var T32 = {
+  REFERRAL_LEADS : {PCT:false,UP_GOOD:true},
+  AVG_CREDIT_SCORE : {PCT:false,UP_GOOD:true},
+  WEBSITE_LEADS : {PCT:false,UP_GOOD:true},
+  MMR_X_LEAD_SOURCE : {PCT:false,UP_GOOD:true},
+  LEAD_SOURCES : {PCT:false,UP_GOOD:true, COUNT_CUR:[], COUNT_COMP:[], MMR_ALL:[], MMR_SUM_CUR:[], MMR_SUM_COMP:[], MMR_AVG_CUR:[], MMR_AVG_COMP:[]},
+  SALES_REPS : {PCT:false,UP_GOOD:true, COUNT_CUR:[], COUNT_COMP:[], MMR_ALL:[], MMR_SUM_CUR:[], MMR_SUM_COMP:[], MMR_AVG_CUR:[], MMR_AVG_COMP:[]},
+  TECHS : {PCT:false,UP_GOOD:true, COUNT_CUR:[], COUNT_COMP:[], MMR_ALL:[], MMR_SUM_CUR:[], MMR_SUM_COMP:[], MMR_AVG_CUR:[], MMR_AVG_COMP:[]},
+  CREDIT_RANGES : {PCT:false,UP_GOOD:true, COUNT_CUR:[], COUNT_COMP:[], MMR_ALL:[], MMR_SUM_CUR:[], MMR_SUM_COMP:[], MMR_AVG_CUR:[], MMR_AVG_COMP:[]}
+}
+SESSIONS_SALES_X_DATE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+LEAD_SOURCE_X_DATE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+AVG_MMR_X_LEAD_SOURCE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+AVG_MMR_X_SALES_REP = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+AVG_MMR_X_CREDIT_RANGE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+LEADS_X_LEAD_SOURCE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+INSTALLS_X_TECH = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+
+window.onload = function(){
+    if(LOCAL_DB_EXPIRED){
+      google.script.run.withSuccessHandler(success_t32_and_ga).get_t32_data_and_ga();
+    }else{
+      var data = JSON.parse(localStorage.getItem("REPORT_DATA"));
+      process_t32_and_ga(data);
+    }
+}
+function success_t32_and_ga(arr){
+  localStorage.setItem("REPORT_DATA", JSON.stringify(arr));
+  localStorage.T32_LAST_UPDATE = new Date().getTime();
+  load_timer('Local Storage Updated.');
+  process_t32_and_ga(arr)
+}
+function process_t32_and_ga(arr){
+  var t32 = arr[0];//obj.t32;
+  var ga = arr[1];//obj.ga;
+  addToDb(DB_T32,t32,'DB_T32');
+  addToDb(DB_GA,ga,'DB_GA');
+  calculate();
+}
+function addToDb(arg_db,arg_arr,text){
+  for(var r=0;r<arg_arr.length;r++){
+    var obj = arg_arr[r];
+    arg_db.insert(obj);
+  }
+  var et = new Date().getTime();
+  load_timer('addToDb('+text+') complete');
+}
+function findMinimumDate(){
+  var X = DB_T32().filter({'ShortSaleDate':{gte:1}}).min('ShortSaleDate');//.distinct('ShortSaleDate');//.min('ShortInstallDate');//.first().select("ShortInstallDate");
+  var Y = DB_T32().filter({'ShortInstallDate':{gte:1}}).min('ShortInstallDate');//.distinct('ShortSaleDate');//.min('ShortInstallDate');//.first().select("ShortInstallDate");
+  var Z = DB_T32().filter({'DateEntered':{gte:1}}).min('DateEntered');//.distinct('ShortSaleDate');//.min('ShortInstallDate');//.first().select("ShortInstallDate");
+  MINIMUM_DATE = X;
+  if(Y<X && Y<Z){MINIMUM_DATE = Y;}
+  if(Z<X && Z<Y){MINIMUM_DATE = Z;}
+  
+}
+
+//TAFFY.extend("avg",function (c) {
+//	// This runs the query or returns the results if it has already run
+//	this.context({
+//           results: this.getDBI().query(this.context())
+//    });
+//    // setup the sum
+//    var total = 0;
+//    // loop over every record in the results and sum up the column.
+//    TAFFY.each(this.context().results,function (r) {
+//		total = total + r[c];
+//        console.log(r[c]);
+//    })
+//    
+//    // divide the total by the number of records and return
+//    return total/(this.context().results.length);
+//});
+
+String.prototype.cleanT32Name = function(){
+  return this.split('(')[0].trim();
+}
+
+
+
+
+function calculate(){
+console.log('calculate');
+console.log(START_DATE);
+console.log(THRU_DATE);
+findMinimumDate();
+dateRangeInit();
+  load_timer('calculate start');
+  WIDGET_DATA = [];
+  GA = {
+    SESSIONS : {PCT:false,UP_GOOD:true},
+    PAGE_VIEWS : {PCT:false,UP_GOOD:true},
+    BOUNCE_RATE : {PCT:true,UP_GOOD:false},
+    IN_MARKET_TRAFFIC : {PCT:true,UP_GOOD:true}
+  }
+  T32 = {
+    REFERRAL_LEADS : {PCT:false,UP_GOOD:true},
+    AVG_CREDIT_SCORE : {PCT:false,UP_GOOD:true},
+    WEBSITE_LEADS : {PCT:false,UP_GOOD:true},
+    MMR_X_LEAD_SOURCE : {PCT:false,UP_GOOD:true},
+    LEAD_SOURCES : {PCT:false,UP_GOOD:true, COUNT_CUR:[], COUNT_COMP:[], MMR_ALL:[], MMR_SUM_CUR:[], MMR_SUM_COMP:[], MMR_AVG_CUR:[], MMR_AVG_COMP:[]},
+    SALES_REPS : {PCT:false,UP_GOOD:true, COUNT_CUR:[], COUNT_COMP:[], MMR_ALL:[], MMR_SUM_CUR:[], MMR_SUM_COMP:[], MMR_AVG_CUR:[], MMR_AVG_COMP:[]},
+    TECHS : {PCT:false,UP_GOOD:true, COUNT_CUR:[], COUNT_COMP:[], MMR_ALL:[], MMR_SUM_CUR:[], MMR_SUM_COMP:[], MMR_AVG_CUR:[], MMR_AVG_COMP:[]},
+    CREDIT_RANGES : {PCT:false,UP_GOOD:true, COUNT_CUR:[], COUNT_COMP:[], MMR_ALL:[], MMR_SUM_CUR:[], MMR_SUM_COMP:[], MMR_AVG_CUR:[], MMR_AVG_COMP:[]}
+  }
+  SESSIONS_SALES_X_DATE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+  LEAD_SOURCE_X_DATE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+  AVG_MMR_X_LEAD_SOURCE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+  AVG_MMR_X_SALES_REP = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+  AVG_MMR_X_CREDIT_RANGE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+  LEADS_X_LEAD_SOURCE = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+  INSTALLS_X_TECH = {CHART_CONFIG:{},DATA:[],COLUMNS:{CONFIG:[],DATA:[]}};
+  DB_T32_DCUR = '';
+  DB_GA_DCUR = '';
+  DB_T32_DCOMP = '';
+  DB_GA_DCOMP = '';
+  DB_T32_INSTALL_DCOMP= '';
+  DB_T32_INSTALL_DCOMP= '';
+  
+//  var testcs = DB_T32().filter({'CreditScore':{gte:380}}).filter({'CreditScore':{lte:850}}).avg('CreditScore');
+//  console.log('testcs: '+testcs);
+
+
+  if(START_DATE === undefined){
+  
+  var date_range = $('#date-range-input').val().split('-');
+  var start_date = new Date(date_range[0].trim());
+  var end_date = new Date(date_range[1].trim());
+  end_date = new Date(end_date.setHours(23));
+  end_date = new Date(end_date.setMinutes(59));
+  end_date = new Date(end_date.setSeconds(59));
+}else{
+  var start_date = new Date(START_DATE);
+  var end_date = new Date(THRU_DATE);
+  end_date = new Date(end_date.setHours(23));
+  end_date = new Date(end_date.setMinutes(59));
+  end_date = new Date(end_date.setSeconds(59));
+
+}
+  
+  var day_diff = moment(end_date).diff(moment(start_date), 'days');
+  load_timer('day_diff calculated : '+day_diff);
+  var comp_end_date = new Date(moment(start_date).subtract(1, 'day').format());
+  comp_end_date = new Date(comp_end_date.setHours(23));
+  comp_end_date = new Date(comp_end_date.setMinutes(59));
+  comp_end_date = new Date(comp_end_date.setSeconds(59));
+
+  var comp_start_date = new Date(moment(comp_end_date).subtract(day_diff, 'day').format());
+  comp_start_date = new Date(comp_start_date.setHours(23));
+  comp_start_date = new Date(comp_start_date.setMinutes(59));
+  comp_start_date = new Date(comp_start_date.setSeconds(59));
+
+  var dt_start_serial = start_date.getUnixTimeStamp();//new Date(2017,11,1).getUnixTimeStamp();
+  var dt_end_serial = end_date.getUnixTimeStamp();//new Date(2018,0,23).getUnixTimeStamp();
+
+  var dt_comp_start_serial = comp_start_date.getUnixTimeStamp();//new Date(2017,11,1).getUnixTimeStamp();
+  var dt_comp_end_serial = comp_end_date.getUnixTimeStamp();//new Date(2018,0,23).getUnixTimeStamp();
+
+  load_timer('day_diff calculate : '+day_diff);
+  load_timer('Start Date: '+start_date);  
+  load_timer('End Date: '+end_date);  
+  load_timer('Comp Start Date: '+comp_start_date);
+  load_timer('Comp End Date: '+comp_end_date);
+
+  DB_T32_INSTALL_DCUR = DB_T32().filter({ShortInstallDate:{gte:dt_start_serial}}).filter({ShortInstallDate:{lte:dt_end_serial}});
+  DB_T32_INSTALL_DCOMP = DB_T32().filter({ShortInstallDate:{gte:dt_comp_start_serial}}).filter({ShortInstallDate:{lte:dt_comp_end_serial}});
+  
+  DB_T32_DCUR = DB_T32().filter({ShortSaleDate:{gte:dt_start_serial}}).filter({ShortSaleDate:{lte:dt_end_serial}});
+  DB_T32_DCOMP = DB_T32().filter({ShortSaleDate:{gte:dt_comp_start_serial}}).filter({ShortSaleDate:{lte:dt_comp_end_serial}});
+  DB_GA_DCUR = DB_GA().filter({date:{gte:dt_start_serial}}).filter({date:{lte:dt_end_serial}});
+  DB_GA_DCOMP = DB_GA().filter({date:{gte:dt_comp_start_serial}}).filter({date:{lte:dt_comp_end_serial}});
+
+
+//  var techs = DB_T32().distinct("Technician");
+  calc_T32({identifier:'TECHS',column:'Technician',limit:[{'Status':'INSTALLED'}]});
+  calc_T32({identifier:'LEAD_SOURCES',column:'LeadSource',limit:[{'Status':'INSTALLED'}]});
+
+  
+  pie_chart("#installs_x_tech",T32.TECHS.UNIQUE.CURRENT.DATA_ONLY)
+  build_table("table.installs_x_tech",T32.TECHS.UNIQUE.BOTH.DATA_ONLY);
+
+  GA.SESSIONS['AZ'] = {
+    CUR : DB_GA_DCUR.sum("sessions_az"),
+    COMP : DB_GA_DCOMP.sum("sessions_az"),
+    SPARKLINE : JSON.stringify(DB_GA_DCUR.select("sessions_az")),
+    WIDGET:{}
+  }; 
+  
+  WIDGET_DATA.push(calc_widget_data(GA.SESSIONS['AZ'],GA.SESSIONS,'sessions'));
+
+  GA.PAGE_VIEWS['AZ'] = {
+    CUR : DB_GA_DCUR.sum("page_views_az"),
+    COMP : DB_GA_DCOMP.sum("page_views_az"),
+    SPARKLINE : JSON.stringify(DB_GA_DCUR.select("page_views_az")),
+    WIDGET:{}
+  };
+  WIDGET_DATA.push(calc_widget_data(GA.PAGE_VIEWS['AZ'],GA.PAGE_VIEWS,'page views'));
+  
+   
+  GA.BOUNCE_RATE['AZ'] = {
+    CUR : ((DB_GA_DCUR.sum("bounced_sessions_az")/DB_GA_DCUR.sum("sessions_az"))*100).round(0),
+    COMP : ((DB_GA_DCOMP.sum("bounced_sessions_az")/DB_GA_DCUR.sum("sessions_az"))*100).round(0),
+  };
+  var forDivision = DB_GA_DCUR.select("bounced_sessions_az","sessions_az");
+  var div_arr = [];
+  for(var d=0;d<forDivision.length;d++){
+    try{ div_arr.push( Math.round(((forDivision[d][0]*1)/(forDivision[d][1]*1))*100) ) }catch(e){ div_arr.push( 0 )};
+  }
+  GA.BOUNCE_RATE['AZ']['SPARKLINE'] = JSON.stringify(div_arr);
+  WIDGET_DATA.push(calc_widget_data(GA.BOUNCE_RATE['AZ'],GA.BOUNCE_RATE,'bounce rate'));
+
+  var DB_T32_DCURx = DB_T32_DCUR; 
+  GA.IN_MARKET_TRAFFIC['AZ'] = {
+    CUR : ((DB_GA_DCUR.sum("sessions_az")/DB_GA_DCUR.sum("sessions_all"))*100).round(0),
+    COMP : ((DB_GA_DCOMP.sum("sessions_az")/DB_GA_DCUR.sum("sessions_all"))*100).round(0),
+  };
+  var forDivision = DB_GA_DCUR.select("sessions_az","sessions_all");
+  var div_arr = [];
+  for(var d=0;d<forDivision.length;d++){
+    try{ div_arr.push( Math.round(((forDivision[d][0]*1)/(forDivision[d][1]*1))*100) ) }catch(e){ div_arr.push( 0 )};
+  }
+  GA.IN_MARKET_TRAFFIC['AZ']['SPARKLINE'] = JSON.stringify(div_arr);
+  WIDGET_DATA.push(calc_widget_data(GA.IN_MARKET_TRAFFIC['AZ'],GA.IN_MARKET_TRAFFIC,'in market traffic'));
+  
+  
+  var x = DB_T32();
+  T32.REFERRAL_LEADS.CUR = DB_T32_DCUR.filter({'LeadSource':'Customer Referral'}).count();
+  T32.REFERRAL_LEADS.COMP = DB_T32_DCOMP.filter({'LeadSource':'Customer Referral'}).count();
+  var div_arr = [];
+  for(var d=0;d<day_diff;d++){
+    var st = new Date(moment(start_date).add(d, 'day').format());
+    var ed = new Date(moment(st).add(1, 'day').format());
+    var c = x.filter({ShortSaleDate:{gte:st}}).filter({ShortSaleDate:{lt:ed}}).filter({'LeadSource':'Customer Referral'}).count();
+//    console.log('d: ' + c );
+    div_arr.push(c)
+  }
+  T32.REFERRAL_LEADS['SPARKLINE'] = JSON.stringify(div_arr);
+  WIDGET_DATA.push(calc_widget_data(T32.REFERRAL_LEADS,T32.REFERRAL_LEADS,'referral leads'));
+   
+  
+  T32.WEBSITE_LEADS.CUR = DB_T32_DCUR.filter({'LeadSource':'Website Form'}).count();
+  T32.WEBSITE_LEADS.COMP = DB_T32_DCOMP.filter({'LeadSource':'Website Form'}).count();
+  var div_arr = [];
+  for(var d=0;d<day_diff;d++){
+    var st = new Date(moment(start_date).add(d, 'day').format());
+    var ed = new Date(moment(st).add(1, 'day').format());
+    var c = DB_T32().filter({ShortSaleDate:{gte:st}}).filter({ShortSaleDate:{lt:ed}}).filter({'LeadSource':'Website Form'}).count();
+    div_arr.push(c)
+//    console.log('d: ' + c );
+  }
+  T32.WEBSITE_LEADS['SPARKLINE'] = JSON.stringify(div_arr);
+  WIDGET_DATA.push(calc_widget_data(T32.WEBSITE_LEADS,T32.WEBSITE_LEADS,'website leads'));
+  
+  var sum = 0; var count = 0;
+  DB_T32_DCUR.filter({CreditScore:{isNull:false}}).filter({CreditScore:{gte:1}}).each(function (record,recordnumber) {sum = sum + ( record["CreditScore"] * 1)});
+  var count =  DB_T32_DCUR.filter({CreditScore:{isNull:false}}).filter({CreditScore:{gte:1}}).count();
+  if(count>0){T32.AVG_CREDIT_SCORE.CUR = Math.round(sum/count)}else{T32.AVG_CREDIT_SCORE.CUR = 0};
+
+  var sum = 0; var count = 0;
+  DB_T32_DCOMP.filter({CreditScore:{isNull:false}}).filter({CreditScore:{gte:1}}).each(function (record,recordnumber) {sum = sum + ( record["CreditScore"] * 1)});
+  var count =  DB_T32_DCOMP.filter({CreditScore:{isNull:false}}).filter({CreditScore:{gte:1}}).count();
+  if(count>0){T32.AVG_CREDIT_SCORE.COMP = Math.round(sum/count)}else{T32.AVG_CREDIT_SCORE.COMP = 0};
+  
+  generate_widgets();
+  
+}
+
+function calc_widget_data(obj,parent_obj,name){
+  var pre_val = obj.COMP;
+  var cur_val = obj.CUR;
+//  console.log('calc_widget_data(obj)');
+//  console.log(obj);
+  var data = {};
+  data['container_id']='container-'+name.replaceAll(' ','_');
+  data['title']=name.toProperCase();
+  data['value_class']='';
+  data['value']=cur_val;
+  data['compare_value']=pre_val;
+  data['change_class']='pct';
+  data['up_good']=parent_obj['UP_GOOD'];
+  
+  data['compare_value_text'] = pre_val.formatNumber(true,true,true).number;
+  data['compare_value_suffix'] = pre_val.formatNumber(true,true,true).suffix;
+  data['value_text'] = cur_val.formatNumber(true,true,true).number;  
+  data['value_suffix'] = cur_val.formatNumber(true,true,true).suffix;  
+  
+  if (parent_obj['PCT']){
+    data['value_class']='pct'
+    data['value_suffix'] = data['value_suffix']+'%';
+    var chg = (data['value'] - data['compare_value']);
+  }else{
+    var chg = (((data['value'] - data['compare_value']) / data['compare_value'])*100).round(1);
+  }
+  if(chg=='Infinity'){
+    data['change_val'] = 0;
+    data['change'] = 'change-na';
+    data['change_class'] = '';
+  } else{
+    if(chg>0){data['change']="up";data['change_prefix']="+"};
+    if(chg==0){data['change']=""};
+    if(chg<0){data['change']="down";data['change_prefix']="-"};
+    data['change_val'] = Math.abs(chg);
+  }
+  if(obj['SPARKLINE']){
+//    console.log('spark data for '+data['container_id']+' ' + obj['SPARKLINE']);
+    data['sparkline'] = obj['SPARKLINE'];
+  }
+//  console.log(data);
+  return data;
+}
+
 </script>
+<script>
+function test(){
+  testtable()
+  chart_installs_x_tech()
+}
+//var COLOR_SCHEME = ['#494E6B','#98878F','#985E6B','#192231'];
+//for(var c=0;c<4;c++){
+//  COLOR_SCHEME.push(shadeBlendConvert(0.2,COLOR_SCHEME[c]))
+//}
+var COLOR_SCHEME = ['#FC9D9A','#F9CDAD','#C8C8A9','#83AF9B','#547980','#45ADA8','#9DE0AD','#E5FCC2'];
+for(var c=0;c<8;c++){
+  COLOR_SCHEME.push(shadeBlendConvert(0.2,COLOR_SCHEME[c]))
+}
+function chart_installs_x_tech(){
+  var ignore_blank_values = true;
+  var ignore_null_values = true;
+  T32.TECHS['UNIQUE_LIST']= DB_T32().distinct("Technician");
+  var unique_arr = T32.TECHS['UNIQUE_LIST'];
+  var obj_arr = [];
+  var legend_arr = [];
+  var values_arr = [];
+  var color_arr = []; var color_index = 0;
+  for(var u=0;u<unique_arr.length;u++){
+    if(unique_arr[u]==''){
+    /**/
+    }else{
+      var xdb = DB_T32_INSTALL_DCUR;
+      var count = xdb.filter({'Technician':{isnocase:unique_arr[u]}}).select("ShortInstallDate").length;
+      if(count){
+        var techname_print = unique_arr[u].split('(')[0].trim();
+        var obj = {value:count, name:techname_print};
+        obj_arr.push(obj);
+        legend_arr.push(techname_print);
+        color_arr.push(COLOR_SCHEME[color_index]);
+        values_arr.push(count);
+        color_index++;
+      }
+    }
+  }
+  var arr = [];
+  arr.push(legend_arr);
+  arr.push(obj_arr);
+  arr.push(color_arr);
+//  console.log(obj_arr);
+//  pie_chart(arr);
+}
+
+function sortByKey(array, key) {
+    return array.sort(function(b, a) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
+$("body").on('click', '.table-toggle', function() {
+   var panel = $(this).closest('.panel');
+   var cur_status = $(panel).attr('show-table');
+   if(cur_status == 'true'){
+     $(panel).attr('show-table','false');
+   }else{
+     $(panel).attr('show-table','true');
+   }
+});
+</script>
+
+
+
+<script>
+
+function build_table(selector,data_arr){
+//build_table("table.installs_x_tech",T32.TECHS.UNIQUE.BOTH.DATA_ONLY);
+data_arr = sortByKey(data_arr, 'cur');
+console.log(data_arr);
+$(selector).find('tbody').html('');
+  for(var r=0;r<data_arr.length;r++){
+    var tech_name = data_arr[r].name;
+    var installs_count = data_arr[r].cur;
+    var previous_installs_count = data_arr[r].pre;
+    var tr = document.createElement('tr');
+    var td1 = document.createElement('td');
+    $(td1).html('<div class="color-block" style="background-color: '+data_arr[r].color+';"></div>'+data_arr[r].name);
+//    $(td1).html(data_arr[r].name);
+    $(td1).css('font-weight',500);
+    var td2 = document.createElement('td');
+    $(td2).css('font-weight',500);
+    $(td2).attr('class','counter-anim');
+    $(td2).html(installs_count);
+    var td3 = document.createElement('td');
+    $(td3).html(previous_installs_count);
+    $(td3).attr('class','counter-anim');
+    var td4 = document.createElement('td');
+    var icon = 'zmdi zmdi-minus'; if(data_arr[r].chg_pct>0){icon='zmdi zmdi-caret-up'}else if(data_arr[r].chg_pct<0){icon='zmdi zmdi-caret-down'};
+    var chg_color = 'inherit'; if(data_arr[r].chg_pct>0){chg_color='#4aa23c'}else if(data_arr[r].chg_pct<0){chg_color='#f33923'};
+    var chg_value = ''; if(data_arr[r].chg_pct>0){chg_value = Math.abs(data_arr[r].chg_pct)+'%'}else if(data_arr[r].chg_pct<0){chg_value = Math.abs(data_arr[r].chg_pct)+'%'};
+//    $(td4).html('<span style="color:'+chg_color+';"><i class="'+icon+' mr-10 font-20"></i><span>'+chg_value+'</span></span>');
+    $(td4).css('color',chg_color);
+    $(td4).html('<i class="'+icon+'"></i>');
+    var td5 = document.createElement('td');
+    $(td5).css('color',chg_color);
+    $(td5).html(chg_value);
+    
+    $(tr).append(td1);
+    $(tr).append(td2);
+    $(tr).append(td3);
+    $(tr).append(td4);
+    $(tr).append(td5);
+    $(selector).find('tbody').append(tr);
+  }
+
+}
+
+
+function calc_T32(arg_obj){
+  var identifier = arg_obj.identifier;
+  var column = arg_obj.column;
+  var limit = arg_obj.limit;
+  var obj = T32[identifier];
+  
+  var a_db = DB_T32();
+  var c_db = DB_T32_INSTALL_DCUR;
+  var p_db = DB_T32_INSTALL_DCOMP;
+    
+  var a_unique = a_db.distinct(column);
+  var c_unique = c_db.distinct(column);
+  var p_unique = p_db.distinct(column);
+
+for(var l=0;l<limit.length;l++){
+  a_db = a_db.filter(limit[l]);
+  c_db = c_db.filter(limit[l]);
+  p_db = p_db.filter(limit[l]);
+}
+
+  obj['UNIQUE'] = {
+                   ALL:{ALL:[],DATA_ONLY:[]}
+                  ,CURRENT:{ALL:[],DATA_ONLY:[]}
+                  ,COMPARE:{ALL:[],DATA_ONLY:[]}
+                  ,BOTH:{ALL:[],DATA_ONLY:[]}
+                  };  
+  for(var a=0;a<a_unique.length;a++){
+  
+    var filter_obj = {};
+  filter_obj[arg_obj.column]={isnocase:a_unique[a]};
+  
+    var color = COLOR_SCHEME[a];
+    var all = a_db.filter(filter_obj).count();
+    var cur = c_db.filter(filter_obj).count();
+    var pre = p_db.filter(filter_obj).count();
+
+    var chg = cur-pre;
+    var chg_pct = 0;
+    if(pre>0 && cur<=0){chg_pct=-100};
+    if(pre<=0 && cur>=0){chg_pct=100};
+    if(pre>0 && cur>0){ chg_pct = Math.round(((cur - pre) / pre)*100 ) };
+    
+    if(a_unique[a]==''){a_unique[a]='(Blank)'};
+    
+    obj.UNIQUE.ALL.ALL.push({name:a_unique[a],color:color,all:all,cur:cur,pre:pre,chg:chg,chg_pct:chg_pct});
+    obj.UNIQUE.CURRENT.ALL.push({name:a_unique[a],color:color,all:all,cur:cur,pre:pre,chg:chg,chg_pct:chg_pct});
+    obj.UNIQUE.COMPARE.ALL.push({name:a_unique[a],color:color,all:all,cur:cur,pre:pre,chg:chg,chg_pct:chg_pct});
+    obj.UNIQUE.BOTH.ALL.push({name:a_unique[a],color:color,all:all,cur:cur,pre:pre,chg:chg,chg_pct:chg_pct});
+    
+
+    
+    if(all>0){ obj.UNIQUE.ALL.DATA_ONLY.push({name:a_unique[a],color:color,all:all,cur:cur,pre:pre,chg:chg,chg_pct:chg_pct}) };
+    if(cur>0){ 
+      obj.UNIQUE.CURRENT.DATA_ONLY.push({name:a_unique[a],color:color,all:all,cur:cur,pre:pre,chg:chg,chg_pct:chg_pct});
+      obj.UNIQUE.BOTH.DATA_ONLY.push({name:a_unique[a],color:color,all:all,cur:cur,pre:pre,chg:chg,chg_pct:chg_pct});
+    };
+    if(pre>0){ 
+      obj.UNIQUE.COMPARE.DATA_ONLY.push({name:a_unique[a],color:color,all:all,cur:cur,pre:pre,chg:chg,chg_pct:chg_pct}) 
+      if(cur<=0){
+        obj.UNIQUE.BOTH.DATA_ONLY.push({name:a_unique[a],color:color,all:all,cur:cur,pre:pre,chg:chg,chg_pct:chg_pct});
+      }
+    };
+    
+  }
+//  console.log(obj);
+}
+
+
+function pie_chart(selector,data_arr){ 
+//$(selector).slideUp();
+var labels_arr = [];
+var values_arr = [];
+var colors_arr = [];
+$.each(data_arr, function(index, obj) {
+    labels_arr.push(obj.name);
+    var name = obj.name;
+    var fn = name.split(' ')[0];
+    var ln = name.split(' ')[1];
+    var name = fn+'\n'+ln;
+    values_arr.push({value:obj.cur,name:name});
+    colors_arr.push(obj.color);
+});
+
+console.log(data_arr);
+console.log(labels_arr);
+	if( $(selector).length > 0 ){
+		var eChart_3 = echarts.init(document.getElementById(selector.replace('#','')));
+var option2 = {
+    tooltip: {
+        trigger: 'item',
+        formatter: "{b} <br/>{a}: {c} ({d}%)"
+    },
+    legend: {
+        show:false,
+        orient: 'horizontal',
+        x: 'left',
+        data:labels_arr,//data_arr[0],//['A','B','C','D','E','F','G','H','I','J']
+    },
+    series: [
+        {
+            name:'Installs',
+            color:colors_arr,//data_arr[2],
+            type:'pie',
+            radius: ['0%', '90%'],
+            selectedMode: 'single',
+            label: {
+                normal: {
+                    fontSize:10,
+
+                }
+            },
+            data:values_arr//data_arr[1]
+        }
+    ]
+};
+		eChart_3.setOption(option2);
+		eChart_3.resize();
+	}
+    $(selector).slideDown();
+}
+
+/*****E-Charts function end*****/
+</script>
+
+
 </html>
