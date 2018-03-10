@@ -38,10 +38,9 @@
                 <table class="installs_x_tech table table-hover chart-table mb-0">
                   <thead>
                     <tr>
-                      <th>Technician</th>
-                      <th>Current</th>
-                      <th>Compare</th>
-                      <th colspan="2">Change</th>
+  {{#each table_columns}}
+  <th {{attributes}}>{{label}}</th>
+  {{/each}}
                     </tr>
                   </thead>
                   <tbody></tbody>
