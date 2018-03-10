@@ -318,7 +318,7 @@ var Bunny = function(){
 	
 	/*Fullscreen Init Js*/
 	$(document).on("click",".full-screen",function (e) {
-		$(body).toggleClass('fullscreen-active');
+		$('body').toggleClass('fullscreen-active');
 		$(this).parents('.panel').toggleClass('fullscreen');
 		$(this).parent().find('.chart-resize').click();
 		$(window).trigger('resize');
