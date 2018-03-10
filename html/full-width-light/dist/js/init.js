@@ -319,6 +319,7 @@ var Bunny = function(){
 	/*Fullscreen Init Js*/
 	$(document).on("click",".full-screen",function (e) {
 		$(this).parents('.panel').toggleClass('fullscreen');
+		$(this).parent().find('.chart-resize').click();
 		$(window).trigger('resize');
 		return false;
 	});
