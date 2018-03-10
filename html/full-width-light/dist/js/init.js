@@ -322,6 +322,14 @@ var Bunny = function(){
 		$(window).trigger('resize');
 		return false;
 	});
+
+	/*Resize Init Js*/
+	$(document).on("click",".chart-resize",function (e) {
+		var id = $(this).closest('div.card-view').find('.chart').attr('id');
+		console.log(id);
+		resize_chart(id);
+		return false;
+	});
 	
 	/*Nav Tab Responsive Js*/
 	$(document).on('show.bs.tab', '.nav-tabs-responsive [data-toggle="tab"]', function(e) {
