@@ -79,6 +79,8 @@ $('#to-date').html(end.format('MM/DD/YYYY'));
     THRU_DATE = end.format('MM/DD/YYYY');
     $('#date-range-input-group').attr('date-type',label);
     console.log("A new date range was chosen: [ " +label+" ] " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    try{
     calculate();
+    }catch(e){console.log(e)};
 });
 }
