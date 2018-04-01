@@ -16,7 +16,7 @@ var per =""; var dc = 3;
   ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
 ranges["This Week"]=
               [moment().startOf('week').format('MM/DD/YYYY')
-              ,moment().format('MM/DD/YYYY')
+              ,moment().endOf('week').format('MM/DD/YYYY')
               ];
 ranges["Last Week"]=
               [moment().startOf('week').subtract(1, 'days').startOf('week').format('MM/DD/YYYY')
