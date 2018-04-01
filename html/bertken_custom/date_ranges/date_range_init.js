@@ -31,8 +31,8 @@ var per =""; var dc = 14;
 var per =""; var dc = 21;
   ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
 var per = "Month"; var dc = 30;              
-  ranges["This "+per]=[moment().startOf(per).format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-  ranges["Last "+per]=[moment().startOf(per).subtract(1, 'days').startOf(per).format('MM/DD/YYYY'),moment().startOf(per).subtract(1, 'days').format('MM/DD/YYYY')];
+  ranges["This "+per]=[moment().startOf(per).format('MM/DD/YYYY'),moment().endOf(per).format('MM/DD/YYYY')];
+  ranges["Last "+per]=[moment().startOf(per).subtract(1, 'days').startOf(per).format('MM/DD/YYYY'),moment().startOf(per).subtract(1, 'days').endOf(per).format('MM/DD/YYYY')];
   ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
 
 var per =""; var dc = 45;
@@ -42,8 +42,8 @@ var per =""; var dc = 60;
 var per =""; var dc = 75;
   ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
 var per = "Quarter"; var dc = 90;              
-  ranges["This "+per]=[moment().startOf(per).format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-  ranges["Last "+per]=[moment().startOf(per).subtract(1, 'days').startOf(per).format('MM/DD/YYYY'),moment().startOf(per).subtract(1, 'days').format('MM/DD/YYYY')];
+  ranges["This "+per]=[moment().startOf(per).format('MM/DD/YYYY'),moment().endOf(per).format('MM/DD/YYYY')];
+  ranges["Last "+per]=[moment().startOf(per).subtract(1, 'days').startOf(per).format('MM/DD/YYYY'),moment().startOf(per).subtract(1, 'days').endOf(per).format('MM/DD/YYYY')];
   ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
 var per =""; var dc = 120;
   ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
@@ -52,8 +52,8 @@ var per =""; var dc = 180;
 var per =""; var dc = 270;
   ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
 var per = "Year"; var dc = 365;              
-  ranges["This "+per]=[moment().startOf(per).format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
-  ranges["Last "+per]=[moment().startOf(per).subtract(1, 'days').startOf(per).format('MM/DD/YYYY'),moment().startOf(per).subtract(1, 'days').format('MM/DD/YYYY')];
+  ranges["This "+per]=[moment().startOf(per).format('MM/DD/YYYY'),moment().endOf(per).format('MM/DD/YYYY')];
+  ranges["Last "+per]=[moment().startOf(per).subtract(1, 'days').startOf(per).format('MM/DD/YYYY'),moment().startOf(per).subtract(1, 'days').endOf(per).format('MM/DD/YYYY')];
   ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
 
 ranges["All"]=[
