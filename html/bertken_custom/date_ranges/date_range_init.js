@@ -20,7 +20,7 @@ ranges["This Week"]=
               ];
 ranges["Last Week"]=
               [moment().startOf('week').subtract(1, 'days').startOf('week').format('MM/DD/YYYY')
-              ,moment().startOf('week').subtract(1, 'days').format('MM/DD/YYYY')
+              ,moment().startOf('week').subtract(1, 'days').endOf('week').format('MM/DD/YYYY')
               ];
 var per =""; var dc = 7;
   ranges[dc+" Days"]=[moment().subtract((dc-1), 'days').format('MM/DD/YYYY'),moment().format('MM/DD/YYYY')];
