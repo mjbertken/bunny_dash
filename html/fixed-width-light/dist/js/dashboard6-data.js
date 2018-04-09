@@ -6,7 +6,7 @@
 $(window).load(function(){
 	window.setTimeout(function(){
 		$.toast({
-			heading: 'Test',
+			heading: '1Test',
 			text: 'Use the predefined ones, or specify a custom position object.',
 			position: 'bottom-left',
 			loaderBg:'#f8b32d',
