@@ -17,7 +17,7 @@ $(document).ready(function(){
 $(window).load(function(){
 	window.setTimeout(function(){
 		$.toast({
-			heading: 'Test',
+			heading: '2Test',
 			text: 'Use the predefined ones, or specify a custom position object.',
 			position: 'bottom-left',
 			loaderBg:'#e58b25',
